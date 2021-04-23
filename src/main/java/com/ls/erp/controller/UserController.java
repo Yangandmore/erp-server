@@ -2,7 +2,8 @@ package com.ls.erp.controller;
 
 import com.ls.erp.entity.ResultInfo;
 import com.ls.erp.entity.UserInfo;
-import com.ls.erp.service.UserServer;
+import com.ls.erp.service.UserService;
+import com.ls.erp.utils.LogUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -12,15 +13,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
-@Slf4j
 @RestController
 @Api(tags = "用户管理接口")
 public class UserController {
 
+    @Resource
+    LogUtil logUtil;
+
     @Autowired
-    private UserServer userServer;
+    private UserService userService;
 
     // 新增用户
 
@@ -33,10 +37,12 @@ public class UserController {
     @ApiOperation("查询所有文件夹信息")
     @ApiResponses({
             @ApiResponse(code = 0, message = "请求成功", response = ResultInfo.class),
-            @ApiResponse(code = -1, message = "请求异常", response = ResultInfo.class),
+            @ApiResponse(code = -1, message = "请求失败", response = ResultInfo.class),
     })
     public ResultInfo findAllUser() {
-        List<UserInfo> userInfoList = userServer.findAllUser();
+        logUtil.in("请求查询所有用户信息");
+        List<UserInfo> userInfoList = userService.findAllUser();
+        logUtil.out("请求查询所有用户信息成功");
         return ResultInfo.success(userInfoList, "请求成功");
     }
 

@@ -22,6 +22,13 @@ public class ResultInfo {
         return resultInfo;
     }
 
+    public static ResultInfo success(String msg) {
+        ResultInfo resultInfo = new ResultInfo();
+        resultInfo.setStatus(0);
+        resultInfo.setMsg(msg);
+        return resultInfo;
+    }
+
     public static ResultInfo success(Object data, String msg) {
         ResultInfo resultInfo = new ResultInfo();
         resultInfo.setStatus(0);
@@ -33,13 +40,20 @@ public class ResultInfo {
     public static ResultInfo error() {
         ResultInfo resultInfo = new ResultInfo();
         resultInfo.setStatus(-1);
-        resultInfo.setMsg("文件服务器异常");
+        resultInfo.setMsg("服务异常");
         return resultInfo;
     }
 
     public static ResultInfo error(int code, String msg) {
         ResultInfo resultInfo = new ResultInfo();
         resultInfo.setStatus(code);
+        resultInfo.setMsg(msg);
+        return resultInfo;
+    }
+
+    public static ResultInfo error(String msg) {
+        ResultInfo resultInfo = new ResultInfo();
+        resultInfo.setStatus(-1);
         resultInfo.setMsg(msg);
         return resultInfo;
     }
