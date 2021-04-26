@@ -62,7 +62,7 @@ public class RoleController {
             logUtil.out("请求删除权限信息 接收参数为空");
             return ResultInfo.error("请求参数不正确");
         }
-        if (!roleService.existsRole(res)) {
+        if (!roleService.existsRoleById(res)) {
             logUtil.out("未找到指定对象");
             return ResultInfo.error("未找到指定对象");
         }
@@ -84,11 +84,11 @@ public class RoleController {
             logUtil.out("请求修改权限信息 接收参数为空");
             return ResultInfo.error("请求参数不正确");
         }
-        if (!roleService.existsRole(res)) {
+        if (!roleService.existsRoleById(res)) {
             logUtil.out("未找到指定对象");
             return ResultInfo.error("未找到指定对象");
         }
-        roleService.addRole(res);
+        roleService.update(res.getId(), res);
 
         logUtil.out("请求修改角色信息成功");
         return ResultInfo.success("修改成功");
@@ -135,4 +135,5 @@ public class RoleController {
         logUtil.out("请求给角色添加权限成功");
         return ResultInfo.success("添加权限成功");
     }
+
 }

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ls.erp.dao.RoleDao">
+
+    <resultMap id="roleMap" type="com.ls.erp.entity.RoleInfo">
+        <id property="id" column="rId"></id>
+        <result property="roleName" column="role_name"></result>
+        <result property="description" column="rDescription"></result>
+        <collection property="permissionInfos" ofType="com.ls.erp.entity.PermissionInfo"  javaType="java.util.ArrayList" column = "id" >
+            <id property="id" column="pId"></id>
+            <result property="permissionName" column="permission_name"></result>
+            <result property="description" column="pDescription"></result>
+        </collection>
+    </resultMap>
+
+    <insert id="addRole">
+        insert into ROLE (
+        id, role_name
+        <if test="description != null">, description</if>
+        ) values (
+        #{id}, #{roleName}
+        <if test="description != null">, #{description}</if>
+        )
+    </insert>
+
+    <insert id="addPermission">
+        insert into PERMISSION_ROLE (
+            id, permission_id, role_id
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+        (
+            #{item.id}, #{item.pId}, #{item.rId}
+        )
+        </foreach>
+    </insert>
+
+    <update id="update">
+        update ROLE
+        <set>
+            <if test="r.roleName != null">role_name=#{r.roleName}</if>
+            <if test="r.description != null">, description=#{r.description}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete ROLE, PERMISSION_ROLE
+        from ROLE
+        left join PERMISSION_ROLE on ROLE.id = PERMISSION_ROLE.role_id
+        where ROLE.id = #{id}
+    </delete>
+
+    <select id="findAll" resultMap="roleMap">
+        select
+            r.id as rId,
+            r.role_name as role_name,
+            r.description as rDescription,
+            p.id as pId,
+            p.permission_name as permission_name,
+            p.description as pDescription
+        from ROLE r
+        left join
+            PERMISSION_ROLE pr
+        on (r.id = pr.role_id)
+        left join
+            PERMISSION p
+        on (pr.permission_id = p.id)
+    </select>
+
+    <select id="existsByRoleName" resultType="java.lang.Boolean">
+        <![CDATA[  select count(*) from ROLE where role_name = #{roleName} ]]>
+    </select>
+    <select id="existsById" resultType="java.lang.Boolean">
+        <![CDATA[  select count(*) from ROLE where id = #{id} ]]>
+    </select>
+    <select id="findById" resultMap="roleMap">
+        select
+            r.id as rId,
+            r.role_name as role_name,
+            r.description as rDescription,
+            p.id as pId,
+            p.permission_name as permission_name,
+            p.description as pDescription
+        from ROLE r
+        left join
+            PERMISSION_ROLE pr
+        on (r.id = pr.role_id)
+        left join
+            PERMISSION p
+        on (pr.permission_id = p.id)
+        where r.id = #{id}
+    </select>
+</mapper>

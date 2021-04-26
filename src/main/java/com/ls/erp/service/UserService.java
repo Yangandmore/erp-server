@@ -15,12 +15,12 @@ public class UserService {
     private UserInfoDao userInfoDao;
 
 
-    // 查找所有user
-    public List<UserInfo> findAllUser() {
-        List<UserInfo> userInfoList = userInfoDao.findAll();
-        if (userInfoList == null) {
-            return new ArrayList<>();
-        }
-        return userInfoList;
-    }
+//    // 查找所有user
+//    public List<UserInfo> findAllUser() {
+//        List<UserInfo> userInfoList = userInfoDao.findAll();
+//        if (userInfoList == null) {
+//            return new ArrayList<>();
+//        }
+//        return userInfoList;
+//    }
 }

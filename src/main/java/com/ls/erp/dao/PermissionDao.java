@@ -1,14 +1,22 @@
 package com.ls.erp.dao;
 
 import com.ls.erp.entity.PermissionInfo;
-import com.sun.org.apache.xpath.internal.objects.XBoolean;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-@Repository
-public interface PermissionDao extends JpaRepository<PermissionInfo, Integer> {
+@Mapper
+public interface PermissionDao {
 
-    XBoolean existsByPermissionName(String permissionName);
+    boolean existsId(int id);
+    boolean existsPermissionName(String permissionName);
+
+    int addPermission(PermissionInfo permissionInfo);
+
+    int delete(int id);
+
+    int update(@Param("id")int id, @Param("p") PermissionInfo permissionInfo);
+
+    List<PermissionInfo> findAll();
 }

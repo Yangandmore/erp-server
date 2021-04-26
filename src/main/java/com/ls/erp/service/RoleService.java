@@ -1,9 +1,8 @@
 package com.ls.erp.service;
 
-import com.ls.erp.dao.PermissionRoleDao;
 import com.ls.erp.dao.RoleDao;
 import com.ls.erp.entity.PermissionInfo;
-import com.ls.erp.entity.PermissionRole;
+import com.ls.erp.entity.PermissionRoleInfo;
 import com.ls.erp.entity.RoleInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,23 +16,24 @@ public class RoleService {
     @Autowired
     private RoleDao roleDao;
 
-    @Autowired
-    private PermissionRoleDao permissionRoleDao;
-
     public boolean existsRoleName(String name) {
-        return roleDao.existsRoleInfoByRoleName(name).bool();
+        return roleDao.existsByRoleName(name);
     }
 
-    public boolean existsRole(RoleInfo roleInfo) {
+    public boolean existsRoleById(RoleInfo roleInfo) {
         return roleDao.existsById(roleInfo.getId());
     }
 
     public void addRole(RoleInfo roleInfo) {
-        roleDao.saveAndFlush(roleInfo);
+        roleDao.addRole(roleInfo);
     }
 
     public void deleteRole(RoleInfo roleInfo) {
-        roleDao.delete(roleInfo);
+        roleDao.delete(roleInfo.getId());
+    }
+
+    public void update(int id, RoleInfo roleInfo) {
+        roleDao.update(id, roleInfo);
     }
 
     public List<RoleInfo> findAll() {
@@ -41,17 +41,19 @@ public class RoleService {
     }
 
     public void addPermission(RoleInfo roleInfo, List<PermissionInfo> permissionInfoList) {
-        List<PermissionRole> permissionRoleList = new ArrayList<>();
+        List<PermissionRoleInfo> permissionRoleList = new ArrayList<>();
         for (PermissionInfo pInfo:
              permissionInfoList) {
-            permissionRoleList.add(new PermissionRole(pInfo.getId(), roleInfo.getId()));
+            PermissionRoleInfo pr = new PermissionRoleInfo();
+            pr.setRId(roleInfo.getId());
+            pr.setPId(pInfo.getId());
+            permissionRoleList.add(pr);
         }
         //添加至中间表
-        permissionRoleDao.saveAll(permissionRoleList);
-        permissionRoleDao.flush();
+        roleDao.addPermission(permissionRoleList);
     }
 
     public RoleInfo findRoleById(int roleId) {
-        return roleDao.findById(roleId).orElse(null);
+        return roleDao.findById(roleId);
     }
 }

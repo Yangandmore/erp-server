@@ -1,12 +1,27 @@
 package com.ls.erp.dao;
 
+import com.ls.erp.entity.PermissionRoleInfo;
 import com.ls.erp.entity.RoleInfo;
-import com.sun.org.apache.xpath.internal.objects.XBoolean;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
-@Repository
-public interface RoleDao extends JpaRepository<RoleInfo, Integer> {
+import java.util.List;
 
-    XBoolean existsRoleInfoByRoleName(String name);
+@Mapper
+public interface RoleDao {
+
+    boolean existsById(int id);
+    boolean existsByRoleName(String roleName);
+    RoleInfo findById(int id);
+
+    int addRole(RoleInfo roleInfo);
+
+    int delete(int id);
+
+    int update(@Param("id") int id, @Param("r") RoleInfo roleInfo);
+
+    List<RoleInfo> findAll();
+
+    int addPermission(List<PermissionRoleInfo> permissionInfoList);
+
 }

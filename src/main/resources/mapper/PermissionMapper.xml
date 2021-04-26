@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ls.erp.dao.PermissionDao">
+
+    <insert id="addPermission">
+        insert into PERMISSION (
+            id, permission_name
+            <if test="description != null">, description</if>
+        ) values (
+            #{id}, #{permissionName}
+            <if test="description != null">, #{description}</if>
+        )
+    </insert>
+
+    <update id="update">
+        update PERMISSION
+        <set>
+            <if test="p.permissionName != null">permission_name=#{p.permissionName}</if>
+            <if test="p.description != null">, description=#{p.description}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from PERMISSION where id = #{id}
+    </delete>
+
+    <select id="findAll" resultType="com.ls.erp.entity.PermissionInfo">
+        select * from PERMISSION
+    </select>
+    <select id="existsPermissionName" resultType="java.lang.Boolean">
+        <![CDATA[  select count(*) from PERMISSION where permission_name = #{permissionName} ]]>
+    </select>
+    <select id="existsId" resultType="java.lang.Boolean">
+        <![CDATA[  select count(*) from PERMISSION where id = #{id} ]]>
+    </select>
+
+</mapper>

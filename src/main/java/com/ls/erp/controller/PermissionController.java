@@ -61,7 +61,7 @@ public class PermissionController {
             logUtil.out("请求删除权限信息 接收参数为空");
             return ResultInfo.error("请求参数不正确");
         }
-        if (!permissionService.existsPermission(res)) {
+        if (!permissionService.existsPermissionName(res.getPermissionName())) {
             logUtil.out("未找到指定对象");
             return ResultInfo.error("未找到指定对象");
         }
@@ -84,11 +84,11 @@ public class PermissionController {
             logUtil.out("请求修改权限信息 接收参数为空");
             return ResultInfo.error("请求参数不正确");
         }
-        if (!permissionService.existsPermission(res)) {
+        if (!permissionService.existsId(res.getId())) {
             logUtil.out("未找到指定对象");
             return ResultInfo.error("未找到指定对象");
         }
-        permissionService.addPermission(res);
+        permissionService.updatePermission(res.getId(), res);
 
         logUtil.out("请求修改权限信息成功");
         return ResultInfo.success("修改成功");
