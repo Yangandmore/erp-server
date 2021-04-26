@@ -9,7 +9,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,9 +36,9 @@ public class PermissionController {
         logUtil.in("请求新增权限信息");
         if (res == null || StringUtils.isNullOrEmpty(res.getPermissionName())) {
             logUtil.out("请求新增权限信息 接收参数为空");
-            return ResultInfo.error("请求参数不准确");
+            return ResultInfo.error("请求参数不正确");
         }
-        if (permissionService.hasPermissionName(res.getPermissionName())) {
+        if (permissionService.existsPermissionName(res.getPermissionName())) {
             logUtil.out("存在相同权限名称");
             return ResultInfo.error("存在相同权限名称");
         }
@@ -60,9 +59,9 @@ public class PermissionController {
         logUtil.in("请求删除权限信息");
         if (res == null) {
             logUtil.out("请求删除权限信息 接收参数为空");
-            return ResultInfo.error("请求参数不准确");
+            return ResultInfo.error("请求参数不正确");
         }
-        if (!permissionService.findOnePermission(res)) {
+        if (!permissionService.existsPermission(res)) {
             logUtil.out("未找到指定对象");
             return ResultInfo.error("未找到指定对象");
         }
@@ -83,9 +82,9 @@ public class PermissionController {
         logUtil.in("请求修改权限信息");
         if (res == null || (StringUtils.isNullOrEmpty(res.getPermissionName()) && StringUtils.isNullOrEmpty(res.getDescription()))) {
             logUtil.out("请求修改权限信息 接收参数为空");
-            return ResultInfo.error("请求参数不准确");
+            return ResultInfo.error("请求参数不正确");
         }
-        if (!permissionService.findOnePermission(res)) {
+        if (!permissionService.existsPermission(res)) {
             logUtil.out("未找到指定对象");
             return ResultInfo.error("未找到指定对象");
         }

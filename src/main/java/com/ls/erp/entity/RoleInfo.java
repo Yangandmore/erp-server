@@ -1,9 +1,11 @@
 package com.ls.erp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,4 +22,8 @@ public class RoleInfo {
 
     @Column(name = "description")
     private String description;
+
+    @ManyToMany(fetch=FetchType.EAGER)
+    @JoinTable(name = "PERMISSION_ROLE", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "permission_id"))
+    private List<PermissionInfo> permissionInfoList;
 }
