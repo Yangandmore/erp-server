@@ -32,6 +32,9 @@
             #{item.id}, #{item.pId}, #{item.rId}
         )
         </foreach>
+        on duplicate key update
+        permission_id=values(permission_id),
+        role_id=values(role_id)
     </insert>
 
     <update id="update">
@@ -48,6 +51,14 @@
         from ROLE
         left join PERMISSION_ROLE on ROLE.id = PERMISSION_ROLE.role_id
         where ROLE.id = #{id}
+    </delete>
+
+    <delete id="deletePermission">
+        delete from PERMISSION_ROLE
+        where (role_id, permission_id) in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            (#{item.rId}, #{item.pId})
+        </foreach>
     </delete>
 
     <select id="findAll" resultMap="roleMap">
@@ -89,5 +100,8 @@
             PERMISSION p
         on (pr.permission_id = p.id)
         where r.id = #{id}
+    </select>
+    <select id="existsRolePermissionById" resultType="java.lang.Boolean">
+        <![CDATA[  select count(*) from PERMISSION_ROLE where id = #{id} ]]>
     </select>
 </mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ls.erp.dao.UserDao">
+
+    <resultMap id="roleMap" type="com.ls.erp.entity.RoleInfo">
+        <id property="id" column="rId"></id>
+        <result property="roleName" column="role_name"></result>
+        <result property="description" column="rDescription"></result>
+        <collection property="permissionInfos" ofType="com.ls.erp.entity.PermissionInfo"  javaType="java.util.ArrayList" column = "id" >
+            <id property="id" column="pId"></id>
+            <result property="permissionName" column="permission_name"></result>
+            <result property="description" column="pDescription"></result>
+        </collection>
+    </resultMap>
+
+    <insert id="addUser">
+        insert into USER (
+            id, login_name, password, name, sex
+        ) values (
+            #{u.id}, #{u.loginName}, #{u.password}, #{u.name}
+            <if test="u.sex != null">, #{u.sex}</if>
+        )
+    </insert>
+    <insert id="addRole">
+        insert into USER_ROLE (
+        id, user_id, role_id
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (
+            #{item.id}, #{item.uId}, #{item.rId}
+            )
+        </foreach>
+        on duplicate key update
+        user_id=values(user_id),
+        role_id=values(role_id)
+    </insert>
+
+    <update id="updateUser">
+        update USER
+        <set>
+            <if test="u.loginName != null">login_name = #{u.loginName}</if>
+            <if test="u.password != null">, password = #{u.password}</if>
+            <if test="u.name != null">, name = #{u.name}</if>
+            <if test="u.sex != null">, sex = #{u.sex}</if>
+        </set>
+         where id=#{u.id}
+    </update>
+
+    <delete id="deleteUser">
+        delete from USER where id = #{id}
+    </delete>
+    <delete id="deleteRole">
+        delete from USER_ROLE
+        where (role_id, user_id) in
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            (#{item.rId}, #{item.uId})
+        </foreach>
+    </delete>
+
+    <select id="findAllUser" resultType="com.ls.erp.entity.UserInfo">
+        select * from USER
+    </select>
+    <select id="existsById" resultType="java.lang.Boolean">
+        <![CDATA[  select count(*) from USER where id = #{id} ]]>
+    </select>
+    <select id="existsUserRoleById" resultType="java.lang.Boolean">
+        <![CDATA[  select count(*) from USER_ROLE where id = #{id} ]]>
+    </select>
+    <select id="findUserById" resultType="com.ls.erp.entity.UserInfo">
+        select * from USER where id = #{id}
+    </select>
+    <select id="findUserRoleById" resultMap="roleMap">
+        select
+            r.id as rId,
+            r.role_name as role_name,
+            r.description as rDescription,
+            p.id as pId,
+            p.permission_name as permission_name,
+            p.description as pDescription
+        from ROLE r
+        left join
+            PERMISSION_ROLE pr
+        on (r.id = pr.role_id)
+        left join
+            PERMISSION p
+        on (pr.permission_id = p.id)
+        inner join
+            USER_ROLE ur
+        on (ur.role_id = r.id)
+        where ur.user_id = #{id}
+    </select>
+</mapper>

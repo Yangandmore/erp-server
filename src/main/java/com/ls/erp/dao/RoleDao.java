@@ -24,4 +24,7 @@ public interface RoleDao {
 
     int addPermission(List<PermissionRoleInfo> permissionInfoList);
 
+    int deletePermission(List<PermissionRoleInfo> permissionInfoList);
+
+    boolean existsRolePermissionById(int id);
 }
