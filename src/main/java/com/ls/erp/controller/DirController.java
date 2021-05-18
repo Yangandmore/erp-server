@@ -36,7 +36,6 @@ public class DirController {
             @ApiResponse(code = -1, message = "请求失败", response = ResultInfo.class),
             @ApiResponse(code = -2, message = "token失效", response = ResultInfo.class),
     })
-    @PassAuthToken
     public ResultInfo addDir(DirInfo dirInfo) {
         logUtil.in("请求新增字典");
         if (dirInfo == null || StringUtils.isNullOrEmpty(dirInfo.getDirKey())) {
@@ -61,7 +60,6 @@ public class DirController {
             @ApiResponse(code = -1, message = "请求失败", response = ResultInfo.class),
             @ApiResponse(code = -2, message = "token失效", response = ResultInfo.class),
     })
-    @PassAuthToken
     public ResultInfo deleteDir(DirInfo res) {
         logUtil.in("请求删除字典");
         if (res == null || res.getId() == 0) {
@@ -86,7 +84,6 @@ public class DirController {
             @ApiResponse(code = -1, message = "请求失败", response = ResultInfo.class),
             @ApiResponse(code = -2, message = "token失效", response = ResultInfo.class),
     })
-    @PassAuthToken
     public ResultInfo updateDir(DirInfo dirInfo) {
         logUtil.in("请求修改修改字典");
         if (dirInfo == null || dirInfo.getId() == 0) {
@@ -111,7 +108,6 @@ public class DirController {
             @ApiResponse(code = -1, message = "请求失败", response = ResultInfo.class),
             @ApiResponse(code = -2, message = "token失效", response = ResultInfo.class),
     })
-    @PassAuthToken
     public ResultInfo getAll() {
         logUtil.in("请求查询所有字典");
         List<DirInfo> dirInfos = dirService.findAllDir();
