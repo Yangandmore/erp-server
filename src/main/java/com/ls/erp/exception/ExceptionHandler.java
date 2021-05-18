@@ -15,4 +15,10 @@ public class ExceptionHandler {
         return ResultInfo.error();
     }
 
+    @org.springframework.web.bind.annotation.ExceptionHandler(TokenException.class)
+    public ResultInfo handleException(TokenException e) {
+        log.error("<----验证过程异常-TokenException");
+        e.printStackTrace();
+        return ResultInfo.error(-2, "token失效");
+    }
 }

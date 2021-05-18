@@ -36,6 +36,7 @@ public class RoleController {
     @ApiResponses({
             @ApiResponse(code = 0, message = "请求成功", response = ResultInfo.class),
             @ApiResponse(code = -1, message = "请求失败", response = ResultInfo.class),
+            @ApiResponse(code = -2, message = "token失效", response = ResultInfo.class),
     })
     public ResultInfo add(RoleInfo res) {
         logUtil.in("请求新增角色信息");
@@ -58,6 +59,7 @@ public class RoleController {
     @ApiResponses({
             @ApiResponse(code = 0, message = "请求成功", response = ResultInfo.class),
             @ApiResponse(code = -1, message = "请求失败", response = ResultInfo.class),
+            @ApiResponse(code = -2, message = "token失效", response = ResultInfo.class),
     })
     public ResultInfo delete(RoleInfo res) {
         logUtil.in("请求删除角色信息");
@@ -80,6 +82,7 @@ public class RoleController {
     @ApiResponses({
             @ApiResponse(code = 0, message = "请求成功", response = ResultInfo.class),
             @ApiResponse(code = -1, message = "请求失败", response = ResultInfo.class),
+            @ApiResponse(code = -2, message = "token失效", response = ResultInfo.class),
     })
     public ResultInfo update(RoleInfo res) {
         logUtil.in("请求修改角色信息");
@@ -103,6 +106,7 @@ public class RoleController {
     @ApiResponses({
             @ApiResponse(code = 0, message = "请求成功", response = ResultInfo.class),
             @ApiResponse(code = -1, message = "请求失败", response = ResultInfo.class),
+            @ApiResponse(code = -2, message = "token失效", response = ResultInfo.class),
     })
     public ResultInfo findAll() {
         logUtil.in("请求查询所有角色信息");
@@ -118,6 +122,7 @@ public class RoleController {
     @ApiResponses({
             @ApiResponse(code = 0, message = "请求成功", response = ResultInfo.class),
             @ApiResponse(code = -1, message = "请求失败", response = ResultInfo.class),
+            @ApiResponse(code = -2, message = "token失效", response = ResultInfo.class),
     })
     public ResultInfo addPermission(@RequestBody Map<String, Object> req) {
         logUtil.in("请求给角色添加权限");
@@ -145,6 +150,7 @@ public class RoleController {
     @ApiResponses({
             @ApiResponse(code = 0, message = "请求成功", response = ResultInfo.class),
             @ApiResponse(code = -1, message = "请求失败", response = ResultInfo.class),
+            @ApiResponse(code = -2, message = "token失效", response = ResultInfo.class),
     })
     public ResultInfo deletePermission(@RequestBody Map<String, Object> req) {
         logUtil.in("请求给角色删除权限");

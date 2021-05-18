@@ -89,4 +89,11 @@
         on (ur.role_id = r.id)
         where ur.user_id = #{id}
     </select>
+    <select id="existsLoginName" resultType="java.lang.Boolean">
+        <![CDATA[  select count(*) from USER where login_name = #{loginName} ]]>
+    </select>
+    <select id="findUserByLoginNameAndPassword" resultType="com.ls.erp.entity.UserInfo">
+        select * from USER
+        where login_name=#{loginName} AND password=#{password}
+    </select>
 </mapper>

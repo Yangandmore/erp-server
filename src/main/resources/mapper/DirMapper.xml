@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ls.erp.dao.DirDao">
+
+    <insert id="addDir">
+        insert into DIR (
+        id, dir_key, dir_value
+        <if test="description != null">, description</if>
+        ) values (
+        #{id}, #{dirKey}, #{dirValue}
+        <if test="description != null">, #{description}</if>
+        )
+    </insert>
+    <update id="updateDir">
+        update DIR
+        <set>
+            <if test="d.dirKey != null">dir_key=#{d.dirKey}</if>
+            <if test="d.dirValue != null">, dir_value=#{d.dirValue}</if>
+            <if test="d.description != null">, description=#{d.description}</if>
+        </set>
+        where id = #{d.id}
+    </update>
+
+    <delete id="deleteDir">
+        delete from DIR where id = #{id}
+    </delete>
+
+
+    <select id="findAll" resultType="com.ls.erp.entity.DirInfo">
+        select
+            *
+        from
+            DIR;
+    </select>
+    <select id="existsDirKey" resultType="java.lang.Boolean">
+        <![CDATA[  select count(*) from DIR where dir_key = #{dirKey} ]]>
+    </select>
+    <select id="existsDirId" resultType="java.lang.Boolean">
+        <![CDATA[  select count(*) from DIR where id = #{id} ]]>
+    </select>
+</mapper>

@@ -78,15 +78,19 @@ public class UserService {
         userDao.deleteRole(roleUserInfos);
     }
 
-    public boolean existsUserRoleById(int id) {
-        return userDao.existsUserRoleById(id);
-    }
-
     public UserInfo findUserById(int id) {
         return userDao.findUserById(id);
     }
 
     public List<RoleInfo> findUserRoleById(int id) {
         return userDao.findUserRoleById(id);
+    }
+
+    public boolean existsLoginName(String loginName) {
+        return userDao.existsLoginName(loginName);
+    }
+
+    public UserInfo findUserByLoginNameAndPassword(String loginName, String password) {
+        return userDao.findUserByLoginNameAndPassword(loginName, password);
     }
 }

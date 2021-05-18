@@ -30,4 +30,8 @@ public interface UserDao {
     UserInfo findUserById(int id);
 
     List<RoleInfo> findUserRoleById(int id);
+
+    boolean existsLoginName(String loginName);
+
+    UserInfo findUserByLoginNameAndPassword(String loginName, String password);
 }
